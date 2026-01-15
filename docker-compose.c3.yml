@@ -1,0 +1,18 @@
+services:
+  web:
+    build: .
+    container_name: signoutmaster
+    restart: unless-stopped
+    volumes:
+      - ./instance:/app/instance
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.signoutmaster.rule=Host(`signout.act25.com`) || Host(`signoutmaster.localhost`)"
+      - "traefik.http.routers.signoutmaster.entrypoints=web"
+      - "traefik.http.services.signoutmaster.loadbalancer.server.port=5000"
+    networks:
+      - c3-network
+
+networks:
+  c3-network:
+    external: true
